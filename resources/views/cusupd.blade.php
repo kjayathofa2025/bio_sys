@@ -2,18 +2,13 @@
 <html lang="en">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/custom.css">
-    <meta name="viewport" content="width=device-width, initial-scale=0.6, maximum-scale=1, user-scalable=0" charset="UTF-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=0.6, maximum-scale=1, user-scalable=0" charset="UTF-8">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300&display=swap" rel="stylesheet">
      <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/jquery-migrate-3.4.0.js"></script>
-    <script type='text/javascript' src="js/messagebox.js"></script> 
-    <script type='text/javascript' src="css/messagebox.css"></script> 
-    <link href="StyleSheet.css" rel="stylesheet" type="text/css" media="only screen and (max-device-width: 1366px) , only screen and (-webkit-min-device-pixel-ratio: 2) , screen and (-webkit-device-pixel-ratio:1.5)" />
-	 <!-- <script type='text/javascript' src="js/messagebox.min.js"></script> 
+ 	 <!-- <script type='text/javascript' src="js/messagebox.min.js"></script> 
     <script type='text/javascript' src="css/messagebox.min.css"></script> -->
    
     <title>Laravel Project</title>
@@ -428,7 +423,7 @@ function switchCSS(windowsize) {
 	
 </script>
 </head>
-<body onload = "document.LeaveDe.brcode.focus()" >
+<body onload = "document.cusupd.brcode.focus()" >
 <div class ="inner-div">
     <div class="container" style="margin-top:1px">
         <div class="row">
@@ -443,34 +438,45 @@ function switchCSS(windowsize) {
 			  </div>
           </div>
           <br>
+         
           <div class="head2">
-              <span>COMPLAINTS DATA ENTRY SCREEN</span>
+              <span>COMPLAINTS DATA CORRECTION SCREEN</span>
           </div>
        <div>
-        @if(session('message'))
-        <div class = "alert alert-success">
-          {{session('message')}}
-</div>
-@endif
-        <form name = "LeaveDe" method="post" action= "/add_cuscomp" style="text-align:center;">
-          <div>
+        <!--{{route('frm_submit')}}-->
+        <form name = "cusupd" method="post"  style="text-align:center;">
+        @csrf
+        @if(!(isset($customer[0])))
+                  <div>
 	        <pre1>SELECT BRANCH / SECTION </pre1>
-			  <input type="text" name="brcode" id ="brcode"  maxlength="2" style="text-transform:uppercase" 
-               required = "required">
+        
+			        <input type="text" name="brcode" id ="brcode"  maxlength="2" style="text-transform:uppercase" 
+                  required = "required" >
+               <button style = "margin-left:10px;"  name="action" formaction="{{route('frm_submit')}}" class = button  type="submit" id ="Submit" style ="color:green" >Get</button>
+              <!--  <input type="text" name="brname" id = "brname" style="text-transform:uppercase"> -->
+           </div>     
+         <br>
+      @else
+         <div>
+	        <pre1>SELECT BRANCH / SECTION </pre1>
+        
+			        <input type="text" name="brcode" id ="brcode"  maxlength="2" style="text-transform:uppercase" 
+                  required = "required" value ="{{$customer[0]->brcode}}">
+               <button style = "margin-left:10px;"  name="action" value="getDet" class = button  type="submit" id ="Submit" style ="color:green" >Get</button>
               <!--  <input type="text" name="brname" id = "brname" style="text-transform:uppercase"> -->
            </div>     
      <br>
-     <div align="left" color ="pink" ><a href= "{{route('upd_cusfrm')}}" class="address_text" style="margin-left:100px;font-weight: bold;color:rgb(8, 131, 69)">DataCorr Screen</a> 
+     <div align="left" color ="pink" ><a href= "{{route('home')}}" class="address_text" style="margin-left:100px;font-weight: bold;color:rgb(8, 131, 69)">DataEntry Screen</a> 
        <label>COMPLAINT DATE</label>
-            <input type="date" id ="compdate" name = "compdate"> 
+            <input type="date" id ="compdate" name = "compdate"  value="{{$customer[0]->compdate}}"> 
 			<label>COMPLAINT NO</label>
-            <input type="text" id ="compno" name = "compno">
+            <input type="text" id ="compno" name = "compno" value="{{$customer[0]->compno}}"> 
 			 </div>
        <br>
   		<label  style ="margin-left:100px;">MOBILE NO</label>
-            <input type="text" id ="mobileno" name = "mobileno" maxlength="10"  onkeypress="return ForNumbers(event)"  required>
+            <input type="text" id ="mobileno" name = "mobileno" maxlength="10"  onkeypress="return ForNumbers(event)"  value ="{{$customer[0]->mobileno}}" required>
              <label>COMPLAINT TYPE</label>
-			<select id="category" name ="comptype" style ="font-family:times;font-size:16px;font-weight:bold;">
+			<select id="category" name ="comptype" style ="font-family:times;font-size:16px;font-weight:bold;" text ="{{$customer[0]->comptype}}">
 				<option value="cat1">01 - Bus Operation Related Enquiry</option>
 				<option value="cat2">02 - Special Bus Operation Enquiry</option>
 				<option value="cat3">03 - General Enquiry</option>
@@ -492,37 +498,36 @@ function switchCSS(windowsize) {
        <br>     <!--<input type="text"  id = "comptype"> -->
 			<div style ="margin-left:250px;">
 			<label>REGION</label>
-            <select id="category1" name = "region" style ="font-family:times;font-size:16px;font-weight:bold;">
+            <select id="category1" name = "region" style ="font-family:times;font-size:16px;font-weight:bold;" text ="{{$customer[0]->region}}">
 				<option value="reg1">SALEM</option>
 				<option value="Reg2">DHARMAPURI</option>
 			</select>	
 			<label>VEHICLE NO</label>
-            <input type="text"  name = "vehtype" id ="vehno" length="9" style="text-transform:uppercase">
+            <input type="text"  name = "vehtype" id ="vehno" length="9" style="text-transform:uppercase" value="{{$customer[0]->vehtype}}">
 			</div>
       <br>
       <div style ="margin-left:250px;">
 			<label>COMPLAINTS:</label>
 			</div>
       <div style ="margin-top:-1px;margin-left:90px;">
-			<textarea class="form-control" name="complaints" id="leaveDesc" rows="5" cols="50" maxlength="1000" placeholder=""></textarea>
+			<textarea class="form-control" name="complaints" id="leaveDesc" rows="5" cols="50" maxlength="1000" placeholder="" >{{$customer[0]->complaints}}</textarea>
       </div>
       <br>
 			<div  style ="margin-left:250px;">	
 			<label>RESPONSIBILITY</label>
-            <input type="text"  name = "respon" id ="respon"> 
+            <input type="text"  name = "respon" id ="respon" value="{{$customer[0]->respon}}"> 
 			<label>ACTION TAKEN</label>
-            <input type="text" name = "actiontaken" id = "actiontaken">
+            <input type="text" name = "actiontaken" id = "actiontaken" value="{{$customer[0]->actiontaken}}">
 			</div>
-      <br>
-        <!-- <pre>FILE UPLOAD</pre>
-            <input type="file" id = "fileupload" > -->
+       <br>
         <div style ="margin-left:570px;float:centre;">    
-			  <button class = button  type="submit" id ="Submit" style ="color:green" >SUBMIT</button>
+			  <button class = button  type="submit" id ="submit" name="_method" value="put" formaction="{{route('upd_submit')}} " style ="color:green" >Update</button>
+        <button class = button  type="submit" id ="submit" name="_method" value="put" formaction="{{route('del_submit')}} " style ="color:green" >Delete</button>
         <button class = button type="submit" id ="Exit" style ="color:red" onclick="callProcedureForWindowsclose() ">EXIT</button>
         </div>
         <!--blade syntax -->
-        @csrf
-		 </form>
+       @endif   
+         </form>
 			</div> 
 		</div>
 	</div>
