@@ -1,11 +1,20 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EmpController;
 
-Route::get('/', [EmpController::class, 'viewForm'])->name('home');
-Route::post('/add_cuscomp',[EmpController::class,'addcuscomp']);
-Route::get('/upd_cusfrm',[EmpController::class,'UpdateForm'])->name('upd_cusfrm');
-Route::post('/form_submit',[EmpController::class,'getCus'])->name('frm_submit');
-Route::put('/Update_submit',[EmpController::class,'updateCus'])->name('upd_submit');
-Route::put('/delete_submit',[EmpController::class,'deleteCus'])->name('del_submit');
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';

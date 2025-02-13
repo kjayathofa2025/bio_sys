@@ -521,6 +521,7 @@ function switchCSS(windowsize) {
         <button class = button type="submit" id ="Exit" style ="color:red" onclick="callProcedureForWindowsclose() ">EXIT</button>
         </div>
         <!--blade syntax -->
+        @
         @csrf
 		 </form>
 			</div> 
